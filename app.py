@@ -93,7 +93,7 @@ if not filtered_df.empty:
 
     # Show Data
     if st.checkbox("🗂 Show Raw Data"):
-        st.dataframe(filtered_df[['drugName', 'review', 'sentiment_score', 'sentiment_label']])
+        st.dataframe(filtered_df[['drugName', 'clean_review', 'sentiment_score', 'sentiment_label']])
 
     # Download Button
     csv = filtered_df.to_csv(index=False).encode('utf-8')
