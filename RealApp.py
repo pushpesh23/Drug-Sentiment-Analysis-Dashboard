@@ -169,14 +169,21 @@ if user_review.strip():
         # Map drug to conditions (unique condition per drug)
         drug_condition_mapping = df_valid[df_valid['drugName'].isin(suggested_drugs)][['drugName', 'condition']].drop_duplicates()
         
-        # Prepare display strings: "DrugName (Condition)"
-        suggestion_display = [
-            f"{row['drugName']} ({row['condition']})" for _, row in drug_condition_mapping.iterrows()
-        ]
+        # Extract unique suggested conditions
+        suggested_conditions = drug_condition_mapping['condition'].dropna().unique()
+        suggested_drugs = drug_condition_mapping['drugName'].dropna().unique()
         
-        st.write("### Suggested Drugs with Conditions based on your review:")
-        for drug_cond in suggestion_display:
-            st.write(f"- {drug_cond}")
+        # Display suggested conditions
+        if len(suggested_conditions) > 0:
+            st.write("### 🩺 Suggested Conditions Based on Your Review:")
+            for cond in suggested_conditions:
+                st.write(f"- {cond}")
+        
+        # Display suggested drugs
+        if len(suggested_drugs) > 0:
+            st.write("### 💊 Suggested Drugs Based on Similar Reviews:")
+            for drug in suggested_drugs:
+                st.write(f"- {drug}")
 
 else:
     st.info("Enter a review above to get drug suggestions based on similar patient experiences.")
